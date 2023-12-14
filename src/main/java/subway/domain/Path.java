@@ -1,12 +1,10 @@
 package subway.domain;
 
-import java.util.List;
-
 public class Path {
-    private Station station1;
-    private Station station2;
-    private int distance;
-    private int time;
+    private final Station station1;
+    private final Station station2;
+    private final int distance;
+    private final int time;
 
     public Path(Station station1, Station station2, int distance, int time) {
         this.station1 = station1;

@@ -29,9 +29,37 @@ public class Graph {
     }
 
     public List<Station> findPath(Station startStation, Station endStation) {
+        validatePath(startStation, endStation);
         DijkstraShortestPath dijkstraShortestPath = new DijkstraShortestPath(graph);
         List<String> shortestPath = dijkstraShortestPath.getPath(startStation.getName(), endStation.getName()).getVertexList();
         return shortestPath.stream().map(StationRepository::findByName)
                 .collect(Collectors.toList());
+    }
+
+    private void validatePath(Station startStation, Station endStation) {
+        validateNull(startStation, endStation);
+        validateDuplicate(startStation, endStation);
+        validateHasPath(startStation, endStation);
+    }
+
+    private void validateNull(Station startStation, Station endStation) {
+        if (startStation == null || endStation == null) {
+            throw new IllegalArgumentException("출발역과 도착역이 존재하지 않습니다.");
+        }
+    }
+
+    private void validateDuplicate(Station startStation, Station endStation) {
+        if (startStation.equals(endStation)) {
+            throw new IllegalArgumentException("출발역과 도착역이 동일합니다.");
+        }
+    }
+
+    private void validateHasPath(Station startStation, Station endStation) {
+        if (!graph.containsVertex(startStation.getName()) || !graph.containsVertex(endStation.getName())) {
+            throw new IllegalArgumentException("출발역과 도착역이 존재하지 않습니다.");
+        }
+        if (graph.containsEdge(startStation.getName(), endStation.getName())) {
+            throw new IllegalArgumentException("출발역과 도착역이 연결되어 있지 않습니다.");
+        }
     }
 }
