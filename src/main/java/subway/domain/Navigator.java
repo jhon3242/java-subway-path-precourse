@@ -57,11 +57,11 @@ public class Navigator {
         distancePathRepository.addEdge(StationRepository.findByName("양재역"), StationRepository.findByName("양재시민의숲역"), 10);
     }
 
-    public List<String> findPathByTime(Station startStation, Station endStation) {
+    public List<Station> findPathByTime(Station startStation, Station endStation) {
         return timePathRepository.findPath(startStation, endStation);
     }
 
-    public List<String> findPathByDistance(Station startStation, Station endStation) {
+    public List<Station> findPathByDistance(Station startStation, Station endStation) {
         return distancePathRepository.findPath(startStation, endStation);
     }
 }
