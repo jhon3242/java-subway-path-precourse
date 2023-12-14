@@ -1,37 +1,54 @@
 package subway.domain;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
-import org.jgrapht.graph.DefaultWeightedEdge;
-import org.jgrapht.graph.WeightedMultigraph;
 
 public class PathRepository {
-    private WeightedMultigraph<String, DefaultWeightedEdge> graph;
+    private static List<Path> paths = new ArrayList<>();
 
-    public PathRepository() {
-        graph = new WeightedMultigraph(DefaultWeightedEdge.class);
-        addVertex(StationRepository.findByName("교대역"));
-        addVertex(StationRepository.findByName("강남역"));
-        addVertex(StationRepository.findByName("역삼역"));
-        addVertex(StationRepository.findByName("남부터미널역"));
-        addVertex(StationRepository.findByName("양재역"));
-        addVertex(StationRepository.findByName("양재시민의숲역"));
-        addVertex(StationRepository.findByName("매봉역"));
+    public static void init() {
+        paths.add(new Path(StationRepository.findByName("교대역"), StationRepository.findByName("강남역"), 2, 3));
+        paths.add(new Path(StationRepository.findByName("강남역"), StationRepository.findByName("역삼역"), 2, 3));
+        paths.add(new Path(StationRepository.findByName("교대역"), StationRepository.findByName("남부터미널역"), 3, 2));
+        paths.add(new Path(StationRepository.findByName("남부터미널역"), StationRepository.findByName("양재역"), 6, 5));
+        paths.add(new Path(StationRepository.findByName("양재역"), StationRepository.findByName("매봉역"), 1, 1));
+        paths.add(new Path(StationRepository.findByName("강남역"), StationRepository.findByName("양재역"), 2, 8));
+        paths.add(new Path(StationRepository.findByName("양재역"), StationRepository.findByName("양재시민의숲역"), 10, 3));
     }
 
-    private void addVertex(Station station) {
-        graph.addVertex(station.getName());
+    public static int getTime(Station startStation, Station endStation) {
+        init();
+        for (Path path : paths) {
+            if (path.isSamePath(startStation, endStation)) {
+                return path.getTime();
+            }
+        }
+        throw new IllegalArgumentException("시간을 계산할 수 없는 경로입니다.");
     }
 
-    public void addEdge(Station station1, Station station2, int weight) {
-        graph.setEdgeWeight(graph.addEdge(station1.getName(), station2.getName()), weight);
+    public static int getDistance(Station startStation, Station endStation) {
+        init();
+        for (Path path : paths) {
+            if (path.isSamePath(startStation, endStation)) {
+                return path.getDistance();
+            }
+        }
+        throw new IllegalArgumentException("거리를 계산할 수 없는 경로입니다.");
     }
 
-    public List<Station> findPath(Station startStation, Station endStation) {
-        DijkstraShortestPath dijkstraShortestPath = new DijkstraShortestPath(graph);
-        List<String> shortestPath = dijkstraShortestPath.getPath(startStation.getName(), endStation.getName()).getVertexList();
-        return shortestPath.stream().map(StationRepository::findByName)
-                .collect(Collectors.toList());
+    public static int getTotalTime(List<Station> paths) {
+        int totalTime = 0;
+        for (int i = 0; i < paths.size() - 1; i++) {
+            totalTime += getTime(paths.get(i), paths.get(i + 1));
+        }
+        return totalTime;
+    }
+
+    public static int getTotalDistance(List<Station> paths) {
+        int totalDistance = 0;
+        for (int i = 0; i < paths.size() - 1; i++) {
+            totalDistance += getDistance(paths.get(i), paths.get(i + 1));
+        }
+        return totalDistance;
     }
 }

@@ -3,10 +3,10 @@ package subway.domain;
 import java.util.List;
 
 public class Navigator {
-    private PathRepository timePathRepository;
-    private PathRepository distancePathRepository;
+    private Graph timePathRepository;
+    private Graph distancePathRepository;
 
-    private Navigator(PathRepository timePathRepository, PathRepository distancePathRepository) {
+    private Navigator(Graph timePathRepository, Graph distancePathRepository) {
         initTimePath(timePathRepository);
         initDistancePath(distancePathRepository);
         this.timePathRepository = timePathRepository;
@@ -16,8 +16,8 @@ public class Navigator {
     public static Navigator getInstance() {
         initLine();
         initStation();
-        PathRepository timePathRepository = new PathRepository();
-        PathRepository distancePathRepository = new PathRepository();
+        Graph timePathRepository = new Graph();
+        Graph distancePathRepository = new Graph();
         return new Navigator(timePathRepository, distancePathRepository);
     }
 
@@ -37,7 +37,7 @@ public class Navigator {
         StationRepository.addStation(new Station("매봉역"));
     }
 
-    private static void initTimePath(PathRepository timePathRepository) {
+    private static void initTimePath(Graph timePathRepository) {
         timePathRepository.addEdge(StationRepository.findByName("교대역"), StationRepository.findByName("강남역"), 3);
         timePathRepository.addEdge(StationRepository.findByName("강남역"), StationRepository.findByName("역삼역"), 3);
         timePathRepository.addEdge(StationRepository.findByName("교대역"), StationRepository.findByName("남부터미널역"), 2);
@@ -47,7 +47,7 @@ public class Navigator {
         timePathRepository.addEdge(StationRepository.findByName("양재역"), StationRepository.findByName("양재시민의숲역"), 3);
     }
 
-    private static void initDistancePath(PathRepository distancePathRepository) {
+    private static void initDistancePath(Graph distancePathRepository) {
         distancePathRepository.addEdge(StationRepository.findByName("교대역"), StationRepository.findByName("강남역"), 2);
         distancePathRepository.addEdge(StationRepository.findByName("강남역"), StationRepository.findByName("역삼역"), 2);
         distancePathRepository.addEdge(StationRepository.findByName("교대역"), StationRepository.findByName("남부터미널역"), 3);
