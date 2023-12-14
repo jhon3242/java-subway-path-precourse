@@ -7,6 +7,7 @@ public class PathRepository {
     private static List<Path> paths = new ArrayList<>();
 
     public static void init() {
+        paths.clear();
         paths.add(new Path(StationRepository.findByName("교대역"), StationRepository.findByName("강남역"), 2, 3));
         paths.add(new Path(StationRepository.findByName("강남역"), StationRepository.findByName("역삼역"), 2, 3));
         paths.add(new Path(StationRepository.findByName("교대역"), StationRepository.findByName("남부터미널역"), 3, 2));
@@ -50,5 +51,9 @@ public class PathRepository {
             totalDistance += getDistance(paths.get(i), paths.get(i + 1));
         }
         return totalDistance;
+    }
+
+    public static List<Path> getPaths() {
+        return paths;
     }
 }

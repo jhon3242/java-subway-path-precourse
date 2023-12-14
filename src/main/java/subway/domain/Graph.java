@@ -11,6 +11,7 @@ public class Graph {
 
     public Graph() {
         graph = new WeightedMultigraph(DefaultWeightedEdge.class);
+        StationRepository.initStation();
         addVertex(StationRepository.findByName("교대역"));
         addVertex(StationRepository.findByName("강남역"));
         addVertex(StationRepository.findByName("역삼역"));

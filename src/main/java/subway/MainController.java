@@ -16,13 +16,14 @@ public class MainController {
     public MainController(Scanner scanner) {
         this.inputView = new InputView(scanner);
         this.outputView = new OutputView();
+        Navigator.getInstance(); // TODO 리팩터링
     }
 
     public void run() {
         while (true) {
             String menu = selectMenu();
             if (menu.equals("1")) {
-                Navigator.getInstance(); // TODO 리팩터링
+
                 handleOption();
                 continue;
             }

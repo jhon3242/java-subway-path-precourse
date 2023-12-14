@@ -18,6 +18,14 @@ public class Path {
                 (this.station1 == station2 && this.station2 == station1);
     }
 
+    public Station getStation1() {
+        return station1;
+    }
+
+    public Station getStation2() {
+        return station2;
+    }
+
     public int getDistance() {
         return distance;
     }
