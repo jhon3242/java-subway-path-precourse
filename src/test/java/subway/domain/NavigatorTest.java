@@ -8,7 +8,7 @@ class NavigatorTest {
     @Test
     void findPathByTime() {
         Navigator navigator = Navigator.getInstance();
-        List<String> path = navigator.findPathByTime(StationRepository.findByName("교대역"),
+        List<Station> path = navigator.findPathByTime(StationRepository.findByName("교대역"),
                 StationRepository.findByName("양재역"));
         System.out.println(path);
     }
@@ -16,7 +16,7 @@ class NavigatorTest {
     @Test
     void findPathByDistance() {
         Navigator navigator = Navigator.getInstance();
-        List<String> path = navigator.findPathByDistance(StationRepository.findByName("교대역"),
+        List<Station> path = navigator.findPathByDistance(StationRepository.findByName("교대역"),
                 StationRepository.findByName("양재역"));
         System.out.println(path);
     }
