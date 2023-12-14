@@ -1,7 +1,9 @@
 package subway;
 
+import java.util.List;
 import java.util.Scanner;
 import subway.domain.Navigator;
+import subway.domain.PathRepository;
 import subway.domain.Station;
 import subway.domain.StationRepository;
 import subway.view.InputView;
@@ -20,6 +22,7 @@ public class MainController {
         while (true) {
             String menu = selectMenu();
             if (menu.equals("1")) {
+                Navigator.getInstance(); // TODO 리팩터링
                 handleOption();
                 continue;
             }
@@ -32,12 +35,9 @@ public class MainController {
     private void handleOption() {
         try {
             String option = selectOption();
-            if (option.equals("1")) {
-//                outputView.printShortestDistance();
-                return;
-            }
-            if (option.equals("2")) {
-//                outputView.printShortestDistance();
+            if ("12".contains(option)) {
+                List<Station> path = handlePath(option);
+                outputView.printPath(PathRepository.getTotalDistance(path), PathRepository.getTotalTime(path), path);
                 return;
             }
             if (option.equals("B")) {
@@ -67,12 +67,18 @@ public class MainController {
         }
     }
 
-    private void selectStation(String option) {
+    private List<Station> handlePath(String option) {
         Station departureStation = selectDepartureStation();
         Station arrivalStation = selectArrivalStation();
         if (option.equals("1")) {
-            Navigator.getInstance().findPathByDistance(departureStation, arrivalStation);
+            return Navigator.getInstance()
+                    .findPathByDistance(departureStation, arrivalStation);
         }
+        if (option.equals("2")) {
+            return Navigator.getInstance()
+                    .findPathByTime(departureStation, arrivalStation);
+        }
+        throw new IllegalArgumentException("옵션을 잘못 입력하셨습니다.");
     }
 
     private Station selectDepartureStation() {

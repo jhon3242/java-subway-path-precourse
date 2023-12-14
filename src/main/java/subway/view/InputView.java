@@ -14,7 +14,7 @@ public class InputView {
         System.out.println("1. 경로 조회");
         System.out.println("Q. 종료");
         System.out.println();
-        System.out.print("## 원하는 기능을 선택하세요.");
+        System.out.println("## 원하는 기능을 선택하세요.");
         String line = scanner.nextLine();
         validateMenu(line);
         return line;
@@ -26,7 +26,7 @@ public class InputView {
         System.out.println("2. 최소 시간");
         System.out.println("B. 돌아가기");
         System.out.println();
-        System.out.print("## 원하는 기능을 선택하세요.");
+        System.out.println("## 원하는 기능을 선택하세요.");
         String line = scanner.nextLine();
         validateOption(line);
         return line;
@@ -45,12 +45,14 @@ public class InputView {
     }
 
     public String selectDepartureStation() {
+        System.out.println();
         System.out.println("## 출발역을 입력하세요.");
         String line = scanner.nextLine();
         return line;
     }
 
     public String selectArrivalStation() {
+        System.out.println();
         System.out.println("## 도착역을 입력하세요.");
         String line = scanner.nextLine();
         return line;
